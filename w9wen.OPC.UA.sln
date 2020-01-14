@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "w9wen.OPC.UA.Client.ConsoleApp", "w9wen.OPC.UA.Client.ConsoleApp\w9wen.OPC.UA.Client.ConsoleApp.csproj", "{EB7A8525-AFB4-408E-B0F9-D4FEE9F81962}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB7A8525-AFB4-408E-B0F9-D4FEE9F81962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7A8525-AFB4-408E-B0F9-D4FEE9F81962}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB7A8525-AFB4-408E-B0F9-D4FEE9F81962}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB7A8525-AFB4-408E-B0F9-D4FEE9F81962}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {649C9DAA-2623-4846-8BB4-795A999F66F9}
+	EndGlobalSection
+EndGlobal
