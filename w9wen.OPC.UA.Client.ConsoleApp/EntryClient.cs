@@ -82,141 +82,221 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
                 out continuationPoint,
                 out references);
 
-            //Console.WriteLine(" DisplayName, BrowseName, NodeClass");
+            Console.WriteLine(" DisplayName, BrowseName, NodeClass");
 
             foreach (var rd in references)
             {
                 Console.WriteLine(" {0}, {1}, {2}", rd.DisplayName, rd.BrowseName, rd.NodeClass);
-                ReferenceDescriptionCollection nextRefs;
-                byte[] nextCp;
-                session.Browse(
-                    null,
-                    null,
-                    ExpandedNodeId.ToNodeId(rd.NodeId, session.NamespaceUris),
-                    0u,
-                    BrowseDirection.Forward,
-                    ReferenceTypeIds.HierarchicalReferences,
-                    true,
-                    (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
-                    out nextCp,
-                    out nextRefs);
 
-                foreach (var nextRd in nextRefs)
+                if (rd.DisplayName.Text == "Channel2")
                 {
-                    Console.WriteLine("   + {0}, {1}, {2}", nextRd.DisplayName, nextRd.BrowseName, nextRd.NodeClass);
-
-                    ReferenceDescriptionCollection nextRefs1;
-                    byte[] nextCp1;
+                    ReferenceDescriptionCollection nextRefs;
+                    byte[] nextCp;
                     session.Browse(
-                       null,
-                       null,
-                       ExpandedNodeId.ToNodeId(nextRd.NodeId, session.NamespaceUris),
-                       0u,
-                       BrowseDirection.Forward,
-                       ReferenceTypeIds.HierarchicalReferences,
-                       true,
-                       (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
-                       out nextCp1,
-                       out nextRefs1);
+                        null,
+                        null,
+                        ExpandedNodeId.ToNodeId(rd.NodeId, session.NamespaceUris),
+                        0u,
+                        BrowseDirection.Forward,
+                        ReferenceTypeIds.HierarchicalReferences,
+                        true,
+                        (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                        out nextCp,
+                        out nextRefs);
 
-                    foreach (var nextRd1 in nextRefs1)
+                    foreach (var nextRd in nextRefs)
                     {
-                        Console.WriteLine("   + + {0}, {1}, {2}", nextRd1.DisplayName, nextRd1.BrowseName, nextRd1.NodeClass);
+                        Console.WriteLine("   + {0}, {1}, {2}", nextRd.DisplayName, nextRd.BrowseName, nextRd.NodeClass);
 
-                        //if (rd.DisplayName.Text.StartsWith("Channel1") &&
-                        //    nextRd.DisplayName.Text.StartsWith("Device1") &&
-                        //    !nextRd1.DisplayName.Text.StartsWith("_"))
-                        //{
-                        //    try
-                        //    {f
-                        //        var _node = ExpandedNodeId.ToNodeId(nextRd1.NodeId, session.NamespaceUris);
-                        //        DataValue dv2 = session.ReadValue(_node);
-                        //        Console.WriteLine("   + + {0}, DataValue = [{1}]", nextRd1.DisplayName, dv2.Value);
-
-                        //        //var node = client.FindNode("SomeTag.SomeChildTag");
-
-                        //        //// Find out what the type is before you try to get the value
-                        //        //Type type = client.GetDataType(node.Tag);
-                        //        //// If you find out it's a UInt32 then you use it.
-                        //        //var value = client.Read<UInt32>(node.Tag).Value;
-                        //    }
-                        //    catch (Exception ex)
-                        //    {
-                        //    }
-                        //}
-
-                        ReferenceDescriptionCollection nextRefs2;
-                        byte[] nextCp2;
-                        session.Browse(
-                           null,
-                           null,
-                           ExpandedNodeId.ToNodeId(nextRd1.NodeId, session.NamespaceUris),
-                           0u,
-                           BrowseDirection.Forward,
-                           ReferenceTypeIds.HierarchicalReferences,
-                           true,
-                           (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
-                           out nextCp2,
-                           out nextRefs2);
-
-                        foreach (var nextRd2 in nextRefs2)
+                        if (nextRd.DisplayName.Text == "Device1")
                         {
-                            Console.WriteLine("   + + + {0}, {1}, {2}", nextRd2.DisplayName, nextRd2.BrowseName, nextRd2.NodeClass);
-
-                            ReferenceDescriptionCollection nextRefs3;
-                            byte[] nextCp3;
+                            ReferenceDescriptionCollection nextRefs1;
+                            byte[] nextCp1;
                             session.Browse(
                                null,
                                null,
-                               ExpandedNodeId.ToNodeId(nextRd2.NodeId, session.NamespaceUris),
+                               ExpandedNodeId.ToNodeId(nextRd.NodeId, session.NamespaceUris),
                                0u,
                                BrowseDirection.Forward,
                                ReferenceTypeIds.HierarchicalReferences,
                                true,
                                (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
-                               out nextCp3,
-                               out nextRefs3);
+                               out nextCp1,
+                               out nextRefs1);
 
-                            foreach (var nextRd3 in nextRefs3)
+                            foreach (var nextRd1 in nextRefs1)
                             {
-                                Console.WriteLine("   + + + + {0}, {1}, {2}", nextRd3.DisplayName, nextRd3.BrowseName, nextRd3.NodeClass);
+                                Console.WriteLine("   + + {0}, {1}, {2}", nextRd1.DisplayName, nextRd1.BrowseName, nextRd1.NodeClass);
 
-                                ReferenceDescriptionCollection nextRefs4;
-                                byte[] nextCp4;
-                                session.Browse(
-                                   null,
-                                   null,
-                                   ExpandedNodeId.ToNodeId(nextRd3.NodeId, session.NamespaceUris),
-                                   0u,
-                                   BrowseDirection.Forward,
-                                   ReferenceTypeIds.HierarchicalReferences,
-                                   true,
-                                   (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
-                                   out nextCp4,
-                                   out nextRefs4);
-
-                                foreach (var nextRd4 in nextRefs4)
+                                if (nextRd1.DisplayName.Text == "ICONICS_DataWorX")
                                 {
-                                    Console.WriteLine("   + + + + + {0}, {1}, {2}", nextRd4.DisplayName, nextRd4.BrowseName, nextRd4.NodeClass);
-
-                                    ReferenceDescriptionCollection nextRefs5;
-                                    byte[] nextCp5;
+                                    ReferenceDescriptionCollection nextRefs2;
+                                    byte[] nextCp2;
                                     session.Browse(
                                        null,
                                        null,
-                                       ExpandedNodeId.ToNodeId(nextRd4.NodeId, session.NamespaceUris),
+                                       ExpandedNodeId.ToNodeId(nextRd1.NodeId, session.NamespaceUris),
                                        0u,
                                        BrowseDirection.Forward,
                                        ReferenceTypeIds.HierarchicalReferences,
                                        true,
                                        (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
-                                       out nextCp5,
-                                       out nextRefs5);
+                                       out nextCp2,
+                                       out nextRefs2);
 
-                                    foreach (var nextRd5 in nextRefs5)
+                                    foreach (var nextRd2 in nextRefs2)
                                     {
-                                        Console.WriteLine("   + + + + + + {0}, {1}, {2}", nextRd5.DisplayName, nextRd5.BrowseName, nextRd5.NodeClass);
+                                        Console.WriteLine("   + + + {0}, {1}, {2}", nextRd2.DisplayName, nextRd2.BrowseName, nextRd2.NodeClass);
+
+                                        if (nextRd2.DisplayName.Text == "DataWorX")
+                                        {
+                                            ReferenceDescriptionCollection nextRefs3;
+                                            byte[] nextCp3;
+                                            session.Browse(
+                                               null,
+                                               null,
+                                               ExpandedNodeId.ToNodeId(nextRd2.NodeId, session.NamespaceUris),
+                                               0u,
+                                               BrowseDirection.Forward,
+                                               ReferenceTypeIds.HierarchicalReferences,
+                                               true,
+                                               (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                                               out nextCp3,
+                                               out nextRefs3);
+
+                                            foreach (var nextRd3 in nextRefs3)
+                                            {
+                                                Console.WriteLine("   + + + + {0}, {1}, {2}", nextRd3.DisplayName, nextRd3.BrowseName, nextRd3.NodeClass);
+
+                                                if (nextRd3.DisplayName.Text == "Registers")
+                                                {
+                                                    ReferenceDescriptionCollection nextRefs4;
+                                                    byte[] nextCp4;
+                                                    session.Browse(
+                                                       null,
+                                                       null,
+                                                       ExpandedNodeId.ToNodeId(nextRd3.NodeId, session.NamespaceUris),
+                                                       0u,
+                                                       BrowseDirection.Forward,
+                                                       ReferenceTypeIds.HierarchicalReferences,
+                                                       true,
+                                                       (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                                                       out nextCp4,
+                                                       out nextRefs4);
+
+                                                    foreach (var nextRd4 in nextRefs4)
+                                                    {
+                                                        Console.WriteLine("   + + + + + {0}, {1}, {2}", nextRd4.DisplayName, nextRd4.BrowseName, nextRd4.NodeClass);
+                                                        if (nextRd4.DisplayName.Text == "ARCH")
+                                                        {
+                                                            ReferenceDescriptionCollection nextRefs5;
+                                                            byte[] nextCp5;
+                                                            session.Browse(
+                                                               null,
+                                                               null,
+                                                               ExpandedNodeId.ToNodeId(nextRd4.NodeId, session.NamespaceUris),
+                                                               0u,
+                                                               BrowseDirection.Forward,
+                                                               ReferenceTypeIds.HierarchicalReferences,
+                                                               true,
+                                                               (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                                                               out nextCp5,
+                                                               out nextRefs5);
+
+                                                            foreach (var nextRd5 in nextRefs5)
+                                                            {
+                                                                Console.WriteLine("   + + + + + + {0}, {1}, {2}", nextRd5.DisplayName, nextRd5.BrowseName, nextRd5.NodeClass);
+
+                                                                if (nextRd5.DisplayName.Text == "PA3000")
+                                                                {
+                                                                    try
+                                                                    {
+                                                                        var _node = ExpandedNodeId.ToNodeId(nextRd5.NodeId, session.NamespaceUris);
+
+                                                                        DataValue dv2 = session.ReadValue(_node);
+                                                                        Console.WriteLine("   + + {0}, DataValue = [{1}]", nextRd5.DisplayName, dv2.Value);
+
+                                                                        ////var node = client.FindNode("SomeTag.SomeChildTag");
+
+                                                                        ////// Find out what the type is before you try to get the value
+                                                                        ////Type type = client.GetDataType(node.Tag);
+                                                                        ////// If you find out it's a UInt32 then you use it.
+                                                                        ////var value = client.Read<UInt32>(node.Tag).Value; }
+                                                                    }
+                                                                    catch (Exception ex)
+                                                                    {
+                                                                        Console.WriteLine("Exception: {0}，{1}", ex.Message, ex.StackTrace);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (rd.DisplayName.Text == "Channel1")
+                {
+                    ReferenceDescriptionCollection nextRefs;
+                    byte[] nextCp;
+                    session.Browse(
+                        null,
+                        null,
+                        ExpandedNodeId.ToNodeId(rd.NodeId, session.NamespaceUris),
+                        0u,
+                        BrowseDirection.Forward,
+                        ReferenceTypeIds.HierarchicalReferences,
+                        true,
+                        (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                        out nextCp,
+                        out nextRefs);
+
+                    foreach (var nextRd in nextRefs)
+                    {
+                        Console.WriteLine("   + {0}, {1}, {2}", nextRd.DisplayName, nextRd.BrowseName, nextRd.NodeClass);
+
+                        if (nextRd.DisplayName.Text == "Device1")
+                        {
+                            ReferenceDescriptionCollection nextRefs1;
+                            byte[] nextCp1;
+                            session.Browse(
+                               null,
+                               null,
+                               ExpandedNodeId.ToNodeId(nextRd.NodeId, session.NamespaceUris),
+                               0u,
+                               BrowseDirection.Forward,
+                               ReferenceTypeIds.HierarchicalReferences,
+                               true,
+                               (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                               out nextCp1,
+                               out nextRefs1);
+
+                            foreach (var nextRd1 in nextRefs1)
+                            {
+                                Console.WriteLine("   + + {0}, {1}, {2}", nextRd1.DisplayName, nextRd1.BrowseName, nextRd1.NodeClass);
+
+                                try
+                                {
+                                    var _node = ExpandedNodeId.ToNodeId(nextRd1.NodeId, session.NamespaceUris);
+                                    DataValue dv2 = session.ReadValue(_node);
+                                    Console.WriteLine("   + + {0}, DataValue = [{1}]", nextRd1.DisplayName, dv2.Value);
+
+                                    //var node = client.FindNode("SomeTag.SomeChildTag");
+
+                                    //// Find out what the type is before you try to get the value
+                                    //Type type = client.GetDataType(node.Tag);
+                                    //// If you find out it's a UInt32 then you use it.
+                                    //var value = client.Read<UInt32>(node.Tag).Value;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Exception: " + ex.Message);
                                 }
                             }
                         }
