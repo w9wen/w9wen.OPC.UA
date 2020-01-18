@@ -209,23 +209,42 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
 
                                                                 if (nextRd5.DisplayName.Text == "PA3000")
                                                                 {
-                                                                    try
+                                                                    ReferenceDescriptionCollection nextRefs6;
+                                                                    byte[] nextCp6;
+                                                                    session.Browse(
+                                                                       null,
+                                                                       null,
+                                                                       ExpandedNodeId.ToNodeId(nextRd5.NodeId, session.NamespaceUris),
+                                                                       0u,
+                                                                       BrowseDirection.Forward,
+                                                                       ReferenceTypeIds.HierarchicalReferences,
+                                                                       true,
+                                                                       (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                                                                       out nextCp6,
+                                                                       out nextRefs6);
+
+                                                                    foreach (var nextRd6 in nextRefs6)
                                                                     {
-                                                                        var _node = ExpandedNodeId.ToNodeId(nextRd5.NodeId, session.NamespaceUris);
+                                                                        Console.WriteLine("   + + + + + + + {0}, {1}, {2}", nextRd6.DisplayName, nextRd6.BrowseName, nextRd6.NodeClass);
 
-                                                                        DataValue dv2 = session.ReadValue(_node);
-                                                                        Console.WriteLine("   + + {0}, DataValue = [{1}]", nextRd5.DisplayName, dv2.Value);
+                                                                        try
+                                                                        {
+                                                                            var _node = ExpandedNodeId.ToNodeId(nextRd6.NodeId, session.NamespaceUris);
 
-                                                                        ////var node = client.FindNode("SomeTag.SomeChildTag");
+                                                                            DataValue dv2 = session.ReadValue(_node);
+                                                                            Console.WriteLine("   + + {0}, DataValue = [{1}]", nextRd5.DisplayName, dv2.Value);
 
-                                                                        ////// Find out what the type is before you try to get the value
-                                                                        ////Type type = client.GetDataType(node.Tag);
-                                                                        ////// If you find out it's a UInt32 then you use it.
-                                                                        ////var value = client.Read<UInt32>(node.Tag).Value; }
-                                                                    }
-                                                                    catch (Exception ex)
-                                                                    {
-                                                                        Console.WriteLine("Exception: {0}，{1}", ex.Message, ex.StackTrace);
+                                                                            ////var node = client.FindNode("SomeTag.SomeChildTag");
+
+                                                                            ////// Find out what the type is before you try to get the value
+                                                                            ////Type type = client.GetDataType(node.Tag);
+                                                                            ////// If you find out it's a UInt32 then you use it.
+                                                                            ////var value = client.Read<UInt32>(node.Tag).Value; }
+                                                                        }
+                                                                        catch (Exception ex)
+                                                                        {
+                                                                            Console.WriteLine("Exception: {0}，{1}", ex.Message, ex.StackTrace);
+                                                                        }
                                                                     }
                                                                 }
                                                             }
