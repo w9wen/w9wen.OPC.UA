@@ -21,7 +21,7 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
 
         private async Task Instance()
         {
-            endpointUrl = "opc.tcp://127.0.0.1:49320";
+            endpointUrl = "opc.tcp://192.168.0.100:49320";
 
             //// 1 - Create an Application Configuration.
 
@@ -88,7 +88,7 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
             {
                 Console.WriteLine(" {0}, {1}, {2}", rd.DisplayName, rd.BrowseName, rd.NodeClass);
 
-                if (rd.DisplayName.Text == "Channel2")
+                if (rd.DisplayName.Text == "PNTech")
                 {
                     ReferenceDescriptionCollection nextRefs;
                     byte[] nextCp;
@@ -108,7 +108,7 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
                     {
                         Console.WriteLine("   + {0}, {1}, {2}", nextRd.DisplayName, nextRd.BrowseName, nextRd.NodeClass);
 
-                        if (nextRd.DisplayName.Text == "Device1")
+                        if (nextRd.DisplayName.Text == "OPC_UA")
                         {
                             ReferenceDescriptionCollection nextRefs1;
                             byte[] nextCp1;
