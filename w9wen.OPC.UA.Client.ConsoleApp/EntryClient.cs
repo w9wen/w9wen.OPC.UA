@@ -64,6 +64,33 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
             this.session = await Session.Create(appConfig, endpoint, false, "w9wen OPC UA Client", 60000,
                 new UserIdentity(new AnonymousIdentityToken()), null);
 
+            #region Read specific Node
+
+            while (true)
+            {
+                var node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vel", 2));
+                var value = this.session.ReadValue(node.NodeId);
+                Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+
+                node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Ve", 2));
+                value = this.session.ReadValue(node.NodeId);
+                Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+
+                node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vca", 2));
+                value = this.session.ReadValue(node.NodeId);
+                Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+
+                node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vc", 2));
+                value = this.session.ReadValue(node.NodeId);
+                Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+
+                Console.Clear();
+            }
+
+            return;
+
+            #endregion Read specific Node
+
             //// 4 - Browse the OPC UA server
             ReferenceDescriptionCollection references;
             Byte[] continuationPoint;
@@ -232,7 +259,7 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
                                                                             var _node = ExpandedNodeId.ToNodeId(nextRd6.NodeId, session.NamespaceUris);
 
                                                                             DataValue dv2 = session.ReadValue(_node);
-                                                                            Console.WriteLine("   + + {0}, DataValue = [{1}]", nextRd5.DisplayName, dv2.Value);
+                                                                            Console.WriteLine("   + + {0}, DataValue = [{1}], NodeId = [{2}]", nextRd5.DisplayName, dv2.Value, nextRd6.NodeId.Identifier.ToString());
 
                                                                             ////var node = client.FindNode("SomeTag.SomeChildTag");
 
