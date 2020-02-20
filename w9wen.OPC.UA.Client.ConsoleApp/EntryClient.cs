@@ -1,4 +1,5 @@
-﻿using Opc.Ua;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Opc.Ua;
 using Opc.Ua.Client;
 using Opc.Ua.Configuration;
 using System;
@@ -21,6 +22,38 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
 
         private async Task Instance()
         {
+            var signalRConnection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:5001/Hubs/OPCUAHub")
+                .Build();
+
+            signalRConnection.Closed += async (error) =>
+            {
+                await Task.Delay(new Random().Next(0, 5) * 1000);
+                await signalRConnection.StartAsync();
+            };
+
+            await signalRConnection.StartAsync();
+            //signalRConnection.On<string, string>("ReceiveMessage", (user, message) =>
+            //{
+            //    this.Dispatcher.Invoke(() =>
+            //    {
+            //        var newMessage = $"{user}: {message}";
+            //        messagesList.Items.Add(newMessage);
+            //    });
+            //});
+
+            //try
+            //{
+            //    await connection.StartAsync();
+            //    messagesList.Items.Add("Connection started");
+            //    connectButton.IsEnabled = false;
+            //    sendButton.IsEnabled = true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    messagesList.Items.Add(ex.Message);
+            //}
+
             endpointUrl = "opc.tcp://192.168.0.100:49320";
 
             //// 1 - Create an Application Configuration.
@@ -71,18 +104,22 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
                 var node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vel", 2));
                 var value = this.session.ReadValue(node.NodeId);
                 Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+                await signalRConnection.InvokeAsync("SendMessage", node.DisplayName, value);
 
                 node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Ve", 2));
                 value = this.session.ReadValue(node.NodeId);
                 Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+                await signalRConnection.InvokeAsync("SendMessage", node.DisplayName, value);
 
                 node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vca", 2));
                 value = this.session.ReadValue(node.NodeId);
                 Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+                await signalRConnection.InvokeAsync("SendMessage", node.DisplayName, value);
 
                 node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vc", 2));
                 value = this.session.ReadValue(node.NodeId);
                 Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+                await signalRConnection.InvokeAsync("SendMessage", node.DisplayName, value);
 
                 Console.Clear();
             }
