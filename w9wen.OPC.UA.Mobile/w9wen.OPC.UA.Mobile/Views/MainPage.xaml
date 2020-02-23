@@ -1,11 +1,233 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="w9wen.OPC.UA.Mobile.Views.MainPage"
-             Title="{Binding Title}">
+<ContentPage
+    x:Class="w9wen.OPC.UA.Mobile.Views.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:gauge="clr-namespace:Syncfusion.SfGauge.XForms;assembly=Syncfusion.SfGauge.XForms"
+    Title="{Binding Title}">
+    <ContentPage.Content>
+        <Grid>
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
-    </StackLayout>
+            <!--#region 抬頭-->
+            <StackLayout
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
 
+                <Label
+                    FontSize="24"
+                    HorizontalOptions="Center"
+                    Text="ARCH.PA3000"
+                    VerticalOptions="Center" />
+
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        FontSize="16"
+                        HorizontalOptions="End"
+                        Text="讀取時間:" />
+                    <Label
+                        FontSize="16"
+                        HorizontalOptions="Start"
+                        Text="{Binding ReadDateTime}" />
+                </StackLayout>
+            </StackLayout>
+            <!--#endregion 抬頭-->
+
+            <!--#region Vel-->
+            <gauge:SfCircularGauge
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="10">
+                <gauge:SfCircularGauge.Headers>
+                    <gauge:Header
+                        ForegroundColor="BlueViolet"
+                        Text="Vel"
+                        TextSize="20" />
+                </gauge:SfCircularGauge.Headers>
+                <gauge:SfCircularGauge.Scales>
+                    <gauge:Scale EndValue="233" StartValue="231">
+                        <gauge:Scale.Ranges>
+                            <gauge:Range
+                                EndValue="232"
+                                StartValue="231"
+                                Color="Green" />
+                            <gauge:Range
+                                EndValue="232.5"
+                                StartValue="232"
+                                Color="Orange" />
+                            <gauge:Range
+                                EndValue="233"
+                                StartValue="232.5"
+                                Color="Red" />
+                        </gauge:Scale.Ranges>
+                        <gauge:Scale.Pointers>
+                            <gauge:MarkerPointer Value="232.5" />
+                            <gauge:NeedlePointer Value="{Binding Vel}" />
+                            <gauge:RangePointer Value="233" />
+                        </gauge:Scale.Pointers>
+                    </gauge:Scale>
+                </gauge:SfCircularGauge.Scales>
+            </gauge:SfCircularGauge>
+
+            <gauge:SfDigitalGauge
+                Grid.Row="1"
+                Grid.Column="1"
+                BackgroundColor="White"
+                CharacterHeight="12"
+                CharacterStrokeColor="#146CED"
+                CharacterType="EightCrossEightDotMatrix"
+                CharacterWidth="12"
+                DisabledSegmentColor="LightSkyBlue"
+                HeightRequest="22"
+                HorizontalOptions="Center"
+                SegmentStrokeWidth="5"
+                VerticalOptions="Center"
+                Value="{Binding Vel}" />
+            <!--<Label
+                Grid.Row="1"
+                Grid.Column="1"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="{Binding Vel}"
+                VerticalOptions="Center" />-->
+            <!--#endregion Vel-->
+
+            <!--#region Ve-->
+            <!--<gauge:SfCircularGauge
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="10">
+                <gauge:SfCircularGauge.Headers>
+                    <gauge:Header
+                        ForegroundColor="BlueViolet"
+                        Text="Ve"
+                        TextSize="20" />
+                </gauge:SfCircularGauge.Headers>
+                <gauge:SfCircularGauge.Scales>
+                    <gauge:Scale EndValue="100" StartValue="0">
+                        <gauge:Scale.Ranges>
+                            <gauge:Range
+                                EndValue="35"
+                                StartValue="0"
+                                Color="Green" />
+                            <gauge:Range
+                                EndValue="70"
+                                StartValue="35"
+                                Color="Orange" />
+                            <gauge:Range
+                                EndValue="100"
+                                StartValue="70"
+                                Color="Red" />
+                        </gauge:Scale.Ranges>
+                        <gauge:Scale.Pointers>
+                            <gauge:MarkerPointer Value="70" />
+                            <gauge:NeedlePointer Value="60" />
+                            <gauge:RangePointer Value="90" />
+                        </gauge:Scale.Pointers>
+                    </gauge:Scale>
+                </gauge:SfCircularGauge.Scales>
+            </gauge:SfCircularGauge>-->
+
+            <Label
+                Grid.Row="2"
+                Grid.Column="1"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="{Binding Ve}"
+                VerticalOptions="Center" />
+            <!--#endregion Ve-->
+
+            <!--#region Vca-->
+            <!--<gauge:SfCircularGauge
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="10">
+                <gauge:SfCircularGauge.Headers>
+                    <gauge:Header
+                        ForegroundColor="BlueViolet"
+                        Text="Vca"
+                        TextSize="20" />
+                </gauge:SfCircularGauge.Headers>
+                <gauge:SfCircularGauge.Scales>
+                    <gauge:Scale EndValue="100" StartValue="0">
+                        <gauge:Scale.Ranges>
+                            <gauge:Range
+                                EndValue="35"
+                                StartValue="0"
+                                Color="Green" />
+                            <gauge:Range
+                                EndValue="70"
+                                StartValue="35"
+                                Color="Orange" />
+                            <gauge:Range
+                                EndValue="100"
+                                StartValue="70"
+                                Color="Red" />
+                        </gauge:Scale.Ranges>
+                        <gauge:Scale.Pointers>
+                            <gauge:MarkerPointer Value="70" />
+                            <gauge:NeedlePointer Value="60" />
+                            <gauge:RangePointer Value="90" />
+                        </gauge:Scale.Pointers>
+                    </gauge:Scale>
+                </gauge:SfCircularGauge.Scales>
+            </gauge:SfCircularGauge>-->
+
+            <Label
+                Grid.Row="3"
+                Grid.Column="1"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="{Binding Vca}"
+                VerticalOptions="Center" />
+            <!--#endregion Vca-->
+
+            <!--#region Vc-->
+            <!--<gauge:SfCircularGauge
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="10">
+                <gauge:SfCircularGauge.Headers>
+                    <gauge:Header
+                        ForegroundColor="BlueViolet"
+                        Text="Vc"
+                        TextSize="20" />
+                </gauge:SfCircularGauge.Headers>
+                <gauge:SfCircularGauge.Scales>
+                    <gauge:Scale EndValue="100" StartValue="0">
+                        <gauge:Scale.Ranges>
+                            <gauge:Range
+                                EndValue="35"
+                                StartValue="0"
+                                Color="Green" />
+                            <gauge:Range
+                                EndValue="70"
+                                StartValue="35"
+                                Color="Orange" />
+                            <gauge:Range
+                                EndValue="100"
+                                StartValue="70"
+                                Color="Red" />
+                        </gauge:Scale.Ranges>
+                        <gauge:Scale.Pointers>
+                            <gauge:MarkerPointer Value="70" />
+                            <gauge:NeedlePointer Value="60" />
+                            <gauge:RangePointer Value="90" />
+                        </gauge:Scale.Pointers>
+                    </gauge:Scale>
+                </gauge:SfCircularGauge.Scales>
+            </gauge:SfCircularGauge>-->
+
+            <Label
+                Grid.Row="4"
+                Grid.Column="1"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="{Binding Vc}"
+                VerticalOptions="Center" />
+            <!--#endregion Vc-->
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

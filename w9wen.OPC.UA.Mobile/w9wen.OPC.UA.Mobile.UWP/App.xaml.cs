@@ -1,4 +1,6 @@
-﻿using System;
+using Syncfusion.SfGauge.XForms.UWP;
+using System.Reflection;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -52,7 +54,10 @@ namespace w9wen.OPC.UA.Mobile.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                Xamarin.Forms.Forms.Init(e);
+List<Assembly> assembliesToInclude = new List<Assembly>();
+assembliesToInclude.Add(typeof(SfDigitalGaugeRenderer).GetTypeInfo().Assembly);
+assembliesToInclude.Add(typeof(SfGaugeRenderer).GetTypeInfo().Assembly);
+Xamarin.Forms.Forms.Init(e, assembliesToInclude);
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

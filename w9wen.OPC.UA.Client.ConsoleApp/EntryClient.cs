@@ -23,7 +23,7 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
         private async Task Instance()
         {
             var signalRConnection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5001/Hubs/OPCUAHub")
+                .WithUrl("https://w9wen-vidly.azurewebsites.net/OPCUAHub")
                 .Build();
 
             signalRConnection.Closed += async (error) =>
@@ -99,29 +99,46 @@ namespace w9wen.OPC.UA.Client.ConsoleApp
 
             #region Read specific Node
 
+            var readDateTime = DateTime.Now;
+
             while (true)
             {
-                var node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vel", 2));
-                var value = this.session.ReadValue(node.NodeId);
-                Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
-                await signalRConnection.InvokeAsync("SendMessage", node.DisplayName, value);
+                try
+                {
+                    if (DateTime.Now > readDateTime)
+                    {
+                        Console.Clear();
 
-                node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Ve", 2));
-                value = this.session.ReadValue(node.NodeId);
-                Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
-                await signalRConnection.InvokeAsync("SendMessage", node.DisplayName, value);
+                        readDateTime = DateTime.Now.AddSeconds(1);
 
-                node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vca", 2));
-                value = this.session.ReadValue(node.NodeId);
-                Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
-                await signalRConnection.InvokeAsync("SendMessage", node.DisplayName, value);
+                        //// 傳送OPC UA Service時間
+                        Console.WriteLine($"讀取時間:{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}");
+                        await signalRConnection.InvokeAsync("SendMessage", "OPC_DateTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
 
-                node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vc", 2));
-                value = this.session.ReadValue(node.NodeId);
-                Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
-                await signalRConnection.InvokeAsync("SendMessage", node.DisplayName, value);
+                        var node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vel", 2));
+                        var value = this.session.ReadValue(node.NodeId);
+                        Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+                        await signalRConnection.InvokeAsync("SendMessage", node.DisplayName.ToString(), value.ToString());
 
-                Console.Clear();
+                        node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Ve", 2));
+                        value = this.session.ReadValue(node.NodeId);
+                        Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+                        await signalRConnection.InvokeAsync("SendMessage", node.DisplayName.ToString(), value.ToString());
+
+                        node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vca", 2));
+                        value = this.session.ReadValue(node.NodeId);
+                        Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+                        await signalRConnection.InvokeAsync("SendMessage", node.DisplayName.ToString(), value.ToString());
+
+                        node = this.session.ReadNode(new NodeId("PNTech.OPC_UA.ICONICS_DataWorX.DataWorX.Registers.ARCH.PA3000.Vc", 2));
+                        value = this.session.ReadValue(node.NodeId);
+                        Console.WriteLine("Name: {0}, Value: {1}", node.DisplayName, value);
+                        await signalRConnection.InvokeAsync("SendMessage", node.DisplayName.ToString(), value.ToString());
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
             }
 
             return;
